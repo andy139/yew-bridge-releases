@@ -11,9 +11,9 @@ Paste this into Terminal:
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/andy139/yew-bridge-releases/main/install-mac.sh)"
 ```
 
-The script downloads the latest `.dmg` from the [latest release](https://github.com/andy139/yew-bridge-releases/releases/latest), copies the app into `/Applications`, strips macOS Gatekeeper's quarantine flag, and launches it.
+The script downloads the latest `.dmg` from the [latest release](https://github.com/andy139/yew-bridge-releases/releases/latest), stops any running bridge, copies the app into `/Applications`, strips macOS Gatekeeper's quarantine flag, ad-hoc re-signs the bundle so the embedded `yew-agent` sidecar can launch, verifies the cleanup actually took, and opens the app.
 
-If you double-click the `.dmg` directly, macOS will say the app "is damaged" because Yew is not yet enrolled in the Apple Developer Program. The install script above is the supported path until that is fixed.
+Do **not** double-click the `.dmg` and drag the app to `/Applications` by hand. The drag is silent: the app appears installed, opens cleanly when you double-click it, and shows up in the dock. But Finder re-applies the quarantine flag during the drag, and Gatekeeper then refuses to let the Tauri shell exec the embedded `yew-agent` sidecar. The dashboard sits at "Bridge isn't connected" with no error dialog. The install script above is the supported path until the build is notarized.
 
 ## Install on Windows
 
